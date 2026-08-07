@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://bcanqtqeuwn4p"
-path="res://.godot/imported/BeepBox-Song (1).wav-114203081a0a1f266714f81c3415408d.sample"
+path="res://.godot/imported/BeepBox-Song (1).wav-8e3f12fde851f7b13954586262598428.sample"
 
 [deps]
 
-source_file="res://BeepBox-Song (1).wav"
-dest_files=["res://.godot/imported/BeepBox-Song (1).wav-114203081a0a1f266714f81c3415408d.sample"]
+source_file="res://assets/BeepBox-Song (1).wav"
+dest_files=["res://.godot/imported/BeepBox-Song (1).wav-8e3f12fde851f7b13954586262598428.sample"]
 
 [params]
 

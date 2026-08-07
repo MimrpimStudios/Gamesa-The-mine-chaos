@@ -1,13 +1,33 @@
-[gd_scene load_steps=2 format=4 uid="uid://c7klc7stx1ram"]
+[gd_scene load_steps=3 format=3 uid="uid://c7klc7stx1ram"]
 
-[ext_resource type="TileSet" uid="uid://bie65dm0o5743" path="res://assets/resources/tileset_01.res" id="1_s3esy"]
+[ext_resource type="PackedScene" uid="uid://bamx7epusptiu" path="res://scenes/tile_map.tscn" id="1_72e8q"]
+[ext_resource type="Script" uid="uid://cvlxbsx141c2d" path="res://scenes/main_game.gd" id="2_72e8q"]
 
 [node name="MainGame" type="Node2D"]
 
-[node name="TileMapLayer" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAAAAAAAAQADAAEAAAABAAAAAQAEAAEAAAACAAAAAQAFAAEAAAADAAAAAQAEAAEAAAAEAAAAAQAFAAEAAAAFAAAAAQAFAAEAAAAGAAAAAQAGAAEAAAAGAAEAAQAGAAIAAAAGAAIAAQAGAAIAAAAGAAMAAQAGAAIAAAAGAAQAAQAGAAIAAAAAAAQAAQADAAIAAAAAAAMAAQADAAIAAAAAAAIAAQADAAIAAAAAAAEAAQADAAIAAAAEAAMAAQAEAAIAAAAEAAIAAQAEAAIAAAAEAAEAAQAEAAIAAAADAAEAAQAEAAIAAAACAAEAAQAEAAIAAAABAAEAAQAEAAIAAAABAAIAAQAEAAIAAAABAAMAAQAEAAIAAAABAAQAAQAEAAIAAAACAAQAAQAEAAIAAAACAAMAAQAEAAIAAAACAAIAAQAEAAIAAAADAAIAAQAEAAIAAAADAAMAAQAEAAIAAAADAAQAAQAEAAIAAAAEAAQAAQAEAAIAAAAFAAQAAQAEAAIAAAAFAAMAAQAEAAIAAAAFAAIAAQAEAAIAAAAFAAEAAQAEAAIAAAAAAAYAAQADAAMAAAABAAYAAQAEAAEAACACAAYAAQAEAAEAACADAAYAAQAEAAEAACAEAAYAAQAFAAEAACAFAAYAAQAFAAEAACAGAAYAAQAGAAMAAAAAAAUAAQADAAIAAAABAAUAAQAEAAIAAAACAAUAAQAEAAIAAAADAAUAAQAEAAIAAAAEAAUAAQAEAAIAAAAFAAUAAQAEAAIAAAAGAAUAAQAGAAIAAAA=")
-tile_set = ExtResource("1_s3esy")
+[node name="TileMap" parent="." instance=ExtResource("1_72e8q")]
+map_file = "res://levels/level2.txt"
 
-[node name="TileMapLayer2" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAABAAEAAgABAAEAAAACAAEAAgACAAAAAAADAAEAAgACAAAAAAAEAAEAAgACAAAAAAAFAAEAAgACAAAAAAABAAIAAgABAAEAAAACAAIAAgACAAAAAAADAAIAAgACAAAAAAAEAAIAAgACAAAAAAAFAAIAAgACAAAAAAABAAMAAgABAAEAAAACAAMAAgACAAAAAAADAAMAAgACAAAAAAAEAAMAAgACAAAAAAAFAAMAAgACAAAAAAABAAQAAgABAAEAAAACAAQAAgACAAAAAAADAAQAAgACAAAAAAAEAAQAAgACAAAAAAAFAAQAAgACAAAAAAABAAUAAgABAAEAAAACAAUAAgACAAAAAAADAAUAAgACAAAAAAAEAAUAAgACAAAAAAAFAAUAAgACAAAAAAABAAYAAgABAAAAAAACAAYAAgABAAAAAAADAAYAAgABAAAAAAAEAAYAAgABAAAAAAAFAAYAAgABAAAAAAA=")
-tile_set = ExtResource("1_s3esy")
+[node name="TileMap2" parent="." instance=ExtResource("1_72e8q")]
+letter_to_atlas_coord = Dictionary[String, Vector2i]({
+"0": Vector2i(1, 1),
+"1": Vector2i(2, 0),
+"2": Vector2i(1, 0)
+})
+main_source_id = 2
+map_file = "res://levels/level2_grid.txt"
+
+[node name="GameManager" type="Node" parent="."]
+process_mode = 3
+script = ExtResource("2_72e8q")
+
+[node name="FileDialog" type="FileDialog" parent="GameManager"]
+oversampling_override = 1.0
+title = "Open a Map file"
+position = Vector2i(0, 36)
+dialog_hide_on_ok = true
+file_mode = 0
+root_subfolder = "levels"
+filters = PackedStringArray("*.map")
+
+[connection signal="file_selected" from="GameManager/FileDialog" to="GameManager" method="_on_file_dialog_file_selected"]
