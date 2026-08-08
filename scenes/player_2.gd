@@ -1,11 +1,10 @@
 extends TileMap
 
 @onready var object_manage: Node = $"../ObjectManage"
-@onready var game_manager: Node = $"../GameManager"
 
 @onready var player_pos = get_unique_tile_position(Vector2i(0, 0))
 var player_future_pos: Vector2i
-var color = 0
+var color = 1
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
@@ -14,6 +13,16 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	pass
+
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("ui_up") and game_manager.turn == color:
+		move(0)
+	elif Input.is_action_just_pressed("ui_down") and game_manager.turn == color:
+		move(1)
+	elif Input.is_action_just_pressed("ui_left") and game_manager.turn == color:
+		move(3)
+	elif Input.is_action_just_pressed("ui_right") and game_manager.turn == color:
+		move(4)
 
 # 0 down
 # 1 up
@@ -35,17 +44,6 @@ func move(direction: int) -> void:
 	elif direction == 4:
 		pass
 
-func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("ui_up") and game_manager.turn == color:
-		move(0)
-	elif Input.is_action_just_pressed("ui_down") and game_manager.turn == color:
-		move(1)
-	elif Input.is_action_just_pressed("ui_left") and game_manager.turn == color:
-		move(3)
-	elif Input.is_action_just_pressed("ui_right") and game_manager.turn == color:
-		move(4)
-
-
 # Hledáme např. dlaždici se souřadnicemi Atlasu Vector2i(3, 1)
 func get_unique_tile_position(target_atlas_coords: Vector2i) -> Vector2i:
 	# Projít všechny položené tiles
@@ -66,14 +64,14 @@ func is_position_wall(pos: Vector2i) -> bool:
 	return false
 
 func make_player():
-	if "HOME1RED" in object_manage.houses:
-		var red_house_positions: Array = object_manage.houses["HOME1RED"]
-		print("Všechny pozice HOME1RED: ", red_house_positions)
+	if "HOME1BLUE" in object_manage.houses:
+		var red_house_positions: Array = object_manage.houses["HOME1BLUE"]
+		print("Všechny pozice HOME1BLUE: ", red_house_positions)
 	
 		# Pokud víš, že je v mapě jen JEDEN dům tohoto typu (první v poli):
 		if red_house_positions.size() > 0:
 			var red_house_pos: Vector2i = red_house_positions[0]
-			print("První HOME1RED je na mřížce: ", red_house_pos)
+			print("První HOME1BLUE je na mřížce: ", red_house_pos)
 			set_cell(0, red_house_pos, 0, Vector2i(0, 0) )
 	else:
-		print("HOME1RED nebyl v mapě nalezen.")
+		print("HOME1BLUE nebyl v mapě nalezen.")

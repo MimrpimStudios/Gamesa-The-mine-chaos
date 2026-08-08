@@ -4,11 +4,15 @@ extends Node
 @onready var tile_map_2: TileMap = $"../TileMap2"
 
 @onready var file_dialog: FileDialog = $FileDialog
+@onready var loading_eye: AnimatedSprite2D = $CenterContainer/LoadingEye
+
 @onready var tile_map_3: TileMap = $"../TileMap3"
 @onready var tile_map_4: TileMap = $"../TileMap4"
 @onready var tile_map_5: TileMap = $"../TileMap5"
 
 @onready var object_manage: Node = $"../ObjectManage"
+@onready var player_1: TileMap = $"../Player1"
+@onready var player_2: TileMap = $"../Player2"
 
 @onready var tilemaps = [
 	tile_map,
@@ -17,10 +21,15 @@ extends Node
 	tile_map_4,
 	tile_map_5
 ]
+# 0 red
+# 1 blue
+var turn = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	get_tree().paused = true
 	file_dialog.show()
+	loading_eye.show()
 	
 
 
@@ -35,4 +44,8 @@ func _on_file_dialog_file_selected(path: String) -> void:
 		print("Eminitng signal generate in ", i.name)
 		i.emit_signal("generate")
 	await get_tree().create_timer(2).timeout
-	object_manage.map_dic()
+	await object_manage.map_dic()
+	print("loading player...")
+	await player_1.make_player()
+	await player_2.make_player()
+	loading_eye.hide()
