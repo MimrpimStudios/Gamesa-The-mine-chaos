@@ -1,25 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://c7klc7stx1ram"]
+[gd_scene load_steps=4 format=3 uid="uid://c7klc7stx1ram"]
 
 [ext_resource type="PackedScene" uid="uid://bamx7epusptiu" path="res://scenes/tile_map.tscn" id="1_72e8q"]
 [ext_resource type="Script" uid="uid://cvlxbsx141c2d" path="res://scenes/main_game.gd" id="2_72e8q"]
-[ext_resource type="Texture2D" uid="uid://defgrh6pe2f6l" path="res://assets/textures/walls.png" id="2_d2op2"]
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0rdsr"]
-texture = ExtResource("2_d2op2")
-texture_region_size = Vector2i(16, 17)
-1:1/0 = 0
-2:1/0 = 0
-2:2/0 = 0
-2:3/0 = 0
-1:2/0 = 0
-
-[sub_resource type="TileSet" id="TileSet_72e8q"]
-tile_size = Vector2i(16, 17)
-sources/0 = SubResource("TileSetAtlasSource_0rdsr")
+[ext_resource type="Script" uid="uid://0fxfs5j0vigp" path="res://scenes/object_manage.gd" id="3_d2op2"]
 
 [node name="MainGame" type="Node2D"]
 
 [node name="TileMap" parent="." instance=ExtResource("1_72e8q")]
+layer_0/tile_data = PackedInt32Array(-131072, 0, 4, -131070, 524288, 4)
 map_file = "res://levels/level2.txt"
 
 [node name="TileMap2" parent="." instance=ExtResource("1_72e8q")]
@@ -82,7 +70,6 @@ main_source_id = 0
 map_file = "res://levels/level2_grid.txt"
 
 [node name="TileMap5" parent="." instance=ExtResource("1_72e8q")]
-tile_set = SubResource("TileSet_72e8q")
 letter_to_atlas_coord = Dictionary[String, Vector2i]({
 "WALLDOWN": Vector2i(2, 2),
 "WALLLEFT": Vector2i(1, 1),
@@ -104,5 +91,8 @@ dialog_hide_on_ok = true
 file_mode = 0
 root_subfolder = "levels"
 filters = PackedStringArray("*.map")
+
+[node name="ObjectManage" type="Node" parent="."]
+script = ExtResource("3_d2op2")
 
 [connection signal="file_selected" from="GameManager/FileDialog" to="GameManager" method="_on_file_dialog_file_selected"]

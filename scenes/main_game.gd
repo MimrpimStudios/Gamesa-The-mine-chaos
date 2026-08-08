@@ -4,10 +4,11 @@ extends Node
 @onready var tile_map_2: TileMap = $"../TileMap2"
 
 @onready var file_dialog: FileDialog = $FileDialog
-@onready var file_dialog_2: FileDialog = $FileDialog2
 @onready var tile_map_3: TileMap = $"../TileMap3"
 @onready var tile_map_4: TileMap = $"../TileMap4"
 @onready var tile_map_5: TileMap = $"../TileMap5"
+
+@onready var object_manage: Node = $"../ObjectManage"
 
 @onready var tilemaps = [
 	tile_map,
@@ -31,4 +32,7 @@ func _on_file_dialog_file_selected(path: String) -> void:
 	tile_map_5.map_file = path.get_basename() + ".wap"
 	get_tree().paused = false
 	for i in tilemaps:
+		print("Eminitng signal generate in ", i.name)
 		i.emit_signal("generate")
+	await get_tree().create_timer(2).timeout
+	object_manage.map_dic()

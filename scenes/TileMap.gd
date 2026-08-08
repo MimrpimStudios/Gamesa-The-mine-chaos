@@ -18,11 +18,13 @@ signal generate
 }
 
 @export var main_layer = 0
-@export var main_source_id = 1
+@export var main_source_id: int = 1
 @export var map_file = "res://levels/level1.txt"
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	await generate
+	emit_signal("generate")
+	print(name, " is generating...")
 	load_level_file(map_file)
 
 

@@ -1,7 +1,7 @@
 .
 . . . . . WALLLEFT
-. . .
-.
-.
-. . . . . . .
-. . . . . . HOME1BLUE
+. . . . WALLUP . WALLDOWN
+. . WALLRIGHT . . . WALLLEFT
+. . . . WALLLEFT
+. . WALLDOWN WALLLEFT . . .
+. WALLRIGHT . . . . .
