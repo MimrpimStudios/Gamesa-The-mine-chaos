@@ -1,6 +1,7 @@
 extends TileMap
 
 @onready var object_manage: Node = $"../ObjectManage"
+@onready var game_manager: Node = $"../GameManager"
 
 @onready var player_pos = get_unique_tile_position(Vector2i(0, 0))
 var player_future_pos: Vector2i
