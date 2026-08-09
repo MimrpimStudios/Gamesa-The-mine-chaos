@@ -6,6 +6,7 @@ extends TileMap
 @onready var player_pos = get_unique_tile_position(Vector2i(0, 0))
 var player_future_pos: Vector2i
 var color = 1
+var show_move = -1
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
@@ -17,41 +18,68 @@ func _process(_delta: float) -> void:
 
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("ui_up") and game_manager.turn == color:
-		move(1)
+		if not show_move == 1:
+			show_move = 1
+			move(1, true)
+		else:
+			move(1, false)
 	elif Input.is_action_just_pressed("ui_down") and game_manager.turn == color:
-		move(0)
+		if not show_move == 0:
+			show_move = 0
+			move(0, true)
+		else:
+			move(0, false)
 	elif Input.is_action_just_pressed("ui_left") and game_manager.turn == color:
-		move(2)
+		if not show_move == 2:
+			show_move = 2
+			move(2, true)
+		else:
+			move(2, false)
 	elif Input.is_action_just_pressed("ui_right") and game_manager.turn == color:
-		move(3)
+		if not show_move == 3:
+			show_move = 3
+			move(3, true)
+		else:
+			move(3, false)
 
 # 0 down, 1 up, 2 left, 3 right
 
-func move(direction: int) -> void:
-	match direction:
-		0: # DOWN (dolů)
-			player_future_pos = player_pos + Vector2i(0, 1)
-			# Na aktuální pozici nesmí být zeď Dole a na budoucí pozici nesmí být zeď Nahoře
-			if not is_wall_at("WALLDOWN", player_pos) and not is_wall_at("WALLUP", player_future_pos):
-				execute_move(0)
+func move(direction: int, preview: bool) -> void:
+	if preview:
+		match direction:
+			0:
+				set_cell(0, player_pos, 0, Vector2i(2, 0))
+			1:
+				set_cell(0, player_pos, 0, Vector2i(4, 0))
+			2:
+				set_cell(0, player_pos, 0, Vector2i(3, 0))
+			3:
+				set_cell(0, player_pos, 0, Vector2i(5, 0))
+	else:
+		match direction:
+			0: # DOWN (dolů)
+				player_future_pos = player_pos + Vector2i(0, 1)
+				# Na aktuální pozici nesmí být zeď Dole a na budoucí pozici nesmí být zeď Nahoře
+				if not is_wall_at("WALLDOWN", player_pos) and not is_wall_at("WALLUP", player_future_pos):
+					execute_move(0)
 
-		1: # UP (nahoru)
-			player_future_pos = player_pos + Vector2i(0, -1)
-			# Na aktuální pozici nesmí být zeď Nahoře a na budoucí pozici nesmí být zeď Dole
-			if not is_wall_at("WALLUP", player_pos) and not is_wall_at("WALLDOWN", player_future_pos):
-				execute_move(1)
+			1: # UP (nahoru)
+				player_future_pos = player_pos + Vector2i(0, -1)
+				# Na aktuální pozici nesmí být zeď Nahoře a na budoucí pozici nesmí být zeď Dole
+				if not is_wall_at("WALLUP", player_pos) and not is_wall_at("WALLDOWN", player_future_pos):
+					execute_move(1)
 
-		2: # LEFT (doleva)
-			player_future_pos = player_pos + Vector2i(-1, 0)
-			# Na aktuální pozici nesmí být zeď Vlevo a na budoucí pozici nesmí být zeď Vpravo
-			if not is_wall_at("WALLLEFT", player_pos) and not is_wall_at("WALLRIGHT", player_future_pos):
-				execute_move(2)
+			2: # LEFT (doleva)
+				player_future_pos = player_pos + Vector2i(-1, 0)
+				# Na aktuální pozici nesmí být zeď Vlevo a na budoucí pozici nesmí být zeď Vpravo
+				if not is_wall_at("WALLLEFT", player_pos) and not is_wall_at("WALLRIGHT", player_future_pos):
+					execute_move(2)
 
-		3: # RIGHT (doprava)
-			player_future_pos = player_pos + Vector2i(1, 0)
-			# Na aktuální pozici nesmí být zeď Vpravo a na budoucí pozici nesmí být zeď Vlevo
-			if not is_wall_at("WALLRIGHT", player_pos) and not is_wall_at("WALLLEFT", player_future_pos):
-				execute_move(3)
+			3: # RIGHT (doprava)
+				player_future_pos = player_pos + Vector2i(1, 0)
+				# Na aktuální pozici nesmí být zeď Vpravo a na budoucí pozici nesmí být zeď Vlevo
+				if not is_wall_at("WALLRIGHT", player_pos) and not is_wall_at("WALLLEFT", player_future_pos):
+					execute_move(3)
 
 
 # Pomocná funkce pro bezpečné ověření, zda je na dané pozici konkrétní typ zdi
@@ -80,6 +108,7 @@ func is_wall_at(wall_type: String, pos: Vector2i) -> bool:
 	return false
 
 func execute_move(direction: int) -> void:
+	show_move = -1
 	game_manager.turn = -1
 	match direction:
 		0:

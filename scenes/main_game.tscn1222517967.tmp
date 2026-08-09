@@ -1,0 +1,131 @@
+[gd_scene load_steps=8 format=3 uid="uid://c7klc7stx1ram"]
+
+[ext_resource type="PackedScene" uid="uid://bamx7epusptiu" path="res://scenes/tile_map.tscn" id="1_72e8q"]
+[ext_resource type="Script" uid="uid://cvlxbsx141c2d" path="res://scenes/main_game.gd" id="2_72e8q"]
+[ext_resource type="TileSet" uid="uid://135ye5t1gavb" path="res://assets/resources/tileset_player.res" id="2_ipu61"]
+[ext_resource type="Script" uid="uid://0fxfs5j0vigp" path="res://scenes/object_manage.gd" id="3_d2op2"]
+[ext_resource type="Script" uid="uid://d2x000oyknbic" path="res://scenes/player.gd" id="3_ygxny"]
+[ext_resource type="Script" uid="uid://bu4tn41egvy7y" path="res://scenes/player_2.gd" id="4_ygxny"]
+[ext_resource type="PackedScene" uid="uid://dreftke3ea6po" path="res://scenes/loading_eye.tscn" id="6_wi4c7"]
+
+[node name="MainGame" type="Node2D"]
+
+[node name="TileMap" parent="." instance=ExtResource("1_72e8q")]
+map_file = "res://levels/level2.txt"
+
+[node name="TileMap2" parent="." instance=ExtResource("1_72e8q")]
+letter_to_atlas_coord = Dictionary[String, Vector2i]({
+"0": Vector2i(1, 1),
+"1": Vector2i(2, 0),
+"2": Vector2i(1, 0)
+})
+main_source_id = 2
+map_file = "res://levels/level2_grid.txt"
+
+[node name="TileMap3" parent="." instance=ExtResource("1_72e8q")]
+letter_to_atlas_coord = Dictionary[String, Vector2i]({
+"EYE0": Vector2i(4, 0),
+"EYE1": Vector2i(5, 0),
+"EYE2": Vector2i(6, 0),
+"EYE3": Vector2i(5, 1),
+"EYE4": Vector2i(6, 1),
+"HOME1BLUE": Vector2i(0, 0),
+"HOME1RED": Vector2i(1, 0),
+"HOME2BLUE": Vector2i(0, 1),
+"HOME2RED": Vector2i(1, 1),
+"HOME3BLUE": Vector2i(0, 2),
+"HOME3RED": Vector2i(1, 2),
+"MINEBLUE": Vector2i(2, 0),
+"MINERED": Vector2i(3, 0),
+"MINESHOW": Vector2i(7, 0),
+"POWERUPBLUE": Vector2i(8, 4),
+"POWERUPRED": Vector2i(8, 6),
+"RADAR": Vector2i(8, 0),
+"SAFE1": Vector2i(2, 2),
+"SAFE2": Vector2i(4, 2),
+"SAFEBLUE": Vector2i(0, 6),
+"SAFERED": Vector2i(0, 4),
+"SWAP": Vector2i(10, 0),
+"TRAILHIDE": Vector2i(9, 0)
+})
+main_source_id = 0
+map_file = "res://levels/level2_grid.txt"
+
+[node name="TileMap4" parent="." instance=ExtResource("1_72e8q")]
+letter_to_atlas_coord = Dictionary[String, Vector2i]({
+"EYE0": Vector2i(4, 0),
+"EYE1": Vector2i(5, 0),
+"EYE2": Vector2i(6, 0),
+"EYE3": Vector2i(5, 1),
+"EYE4": Vector2i(6, 1),
+"HOME1BLUE": Vector2i(0, 0),
+"HOME1RED": Vector2i(1, 0),
+"HOME2BLUE": Vector2i(0, 1),
+"HOME2RED": Vector2i(1, 1),
+"HOME3BLUE": Vector2i(0, 2),
+"HOME3RED": Vector2i(1, 2),
+"MINEBLUE": Vector2i(2, 0),
+"MINERED": Vector2i(3, 0),
+"MINESHOW": Vector2i(7, 0),
+"POWERUPBLUE": Vector2i(8, 4),
+"POWERUPRED": Vector2i(8, 6),
+"RADAR": Vector2i(8, 0),
+"SAFE1": Vector2i(2, 2),
+"SAFE2": Vector2i(4, 2),
+"SAFEBLUE": Vector2i(0, 6),
+"SAFERED": Vector2i(0, 4),
+"SWAP": Vector2i(10, 0),
+"TRAILHIDE": Vector2i(9, 0)
+})
+main_source_id = 0
+map_file = "res://levels/level2_grid.txt"
+
+[node name="TileMap5" parent="." instance=ExtResource("1_72e8q")]
+letter_to_atlas_coord = Dictionary[String, Vector2i]({
+"WALLDOWN": Vector2i(2, 2),
+"WALLLEFT": Vector2i(1, 1),
+"WALLRIGHT": Vector2i(2, 1),
+"WALLUP": Vector2i(1, 2)
+})
+main_source_id = 3
+map_file = "res://levels/level2_grid.txt"
+
+[node name="Player1" type="TileMap" parent="."]
+tile_set = ExtResource("2_ipu61")
+format = 2
+script = ExtResource("3_ygxny")
+
+[node name="Player2" type="TileMap" parent="."]
+tile_set = ExtResource("2_ipu61")
+format = 2
+script = ExtResource("4_ygxny")
+
+[node name="GameManager" type="Node" parent="."]
+process_mode = 3
+script = ExtResource("2_72e8q")
+
+[node name="FileDialog" type="FileDialog" parent="GameManager"]
+oversampling_override = 1.0
+title = "Open a File"
+position = Vector2i(0, 36)
+dialog_hide_on_ok = true
+file_mode = 0
+root_subfolder = "levels"
+filters = PackedStringArray("*.map")
+
+[node name="CenterContainer" type="CenterContainer" parent="GameManager"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="LoadingEye" parent="GameManager/CenterContainer" instance=ExtResource("6_wi4c7")]
+position = Vector2(-4, -4)
+
+[node name="ObjectManage" type="Node" parent="."]
+script = ExtResource("3_d2op2")
+
+[connection signal="file_selected" from="GameManager/FileDialog" to="GameManager" method="_on_file_dialog_file_selected"]
