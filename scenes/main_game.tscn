@@ -90,17 +90,17 @@ letter_to_atlas_coord = Dictionary[String, Vector2i]({
 main_source_id = 3
 map_file = "res://levels/level2_grid.txt"
 
-[node name="Player1" type="TileMap" parent="."]
-tile_set = ExtResource("2_ipu61")
-format = 2
-layer_1/name = "Layer1"
-script = ExtResource("3_ygxny")
-
 [node name="Player2" type="TileMap" parent="."]
 tile_set = ExtResource("2_ipu61")
 format = 2
 layer_1/name = "Layer1"
 script = ExtResource("4_ygxny")
+
+[node name="Player1" type="TileMap" parent="."]
+tile_set = ExtResource("2_ipu61")
+format = 2
+layer_1/name = "Layer1"
+script = ExtResource("3_ygxny")
 
 [node name="GameManager" type="Node" parent="."]
 process_mode = 3

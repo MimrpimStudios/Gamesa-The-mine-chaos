@@ -21,10 +21,12 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	if game_manager.turn == color:
+		top_level = true
 		set_cell(1, arrow_pos)
 		arrow_pos = arrow_future_pos
 		set_cell(1, arrow_pos, 1, Vector2i(0, 0))
 	else:
+		
 		set_cell(1, arrow_pos)
 
 func _input(_event: InputEvent) -> void:
@@ -157,6 +159,7 @@ func execute_move(direction: int) -> void:
 			player_pos = player_future_pos
 			await get_tree().create_timer(0.5).timeout
 			set_cell(0, player_pos, 0, Vector2i(6, 0))
+	top_level = false
 	game_manager.turn = 0
 
 	print("Pohyb úspěšný!")
