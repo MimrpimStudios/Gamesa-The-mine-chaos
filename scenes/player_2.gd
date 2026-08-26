@@ -10,7 +10,7 @@ var player_pos: Vector2i:
 var player_future_pos: Vector2i
 var color = 1
 var show_move: int = -1
-var arrow_pos: Vector2i
+var arrow_pos: Vector2i = Vector2i(0,0)
 var arrow_future_pos: Vector2i
 
 # Called when the node enters the scene tree for the first time.
@@ -24,7 +24,7 @@ func _process(_delta: float) -> void:
 		set_cell(1, arrow_pos)
 		arrow_pos = arrow_future_pos
 		set_cell(1, arrow_pos, 1, Vector2i(0, 0))
-	elif not arrow_pos == null:
+	elif not arrow_pos :
 		set_cell(1, arrow_pos)
 
 func _input(_event: InputEvent) -> void:
