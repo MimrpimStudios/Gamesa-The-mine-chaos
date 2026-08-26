@@ -102,7 +102,12 @@ script = ExtResource("4_ygxny")
 tile_set = ExtResource("2_ipu61")
 format = 2
 layer_1/name = "Layer1"
+layer_2/name = "Layer2"
 script = ExtResource("3_ygxny")
+
+[node name="Trail" type="TileMap" parent="."]
+tile_set = ExtResource("2_ipu61")
+format = 2
 
 [node name="GameManager" type="Node" parent="."]
 process_mode = 3
