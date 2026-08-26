@@ -161,6 +161,7 @@ func execute_move(direction: int) -> void:
 			set_cell(0, player_pos, 0, Vector2i(6, 0))
 	top_level = false
 	game_manager.turn = 0
+	game_manager.kolo += 1
 
 	print("Pohyb úspěšný!")
 	

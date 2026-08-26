@@ -19,7 +19,7 @@ var houses = {}
 var ddp = {}
 var grid = {}
 var map = {}
-
+var powerups = {}
 func write_into_dictionary(tilemap:TileMap, mapping: Dictionary):
 	var out_dic = {}
 	

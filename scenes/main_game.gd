@@ -24,7 +24,7 @@ extends Node
 # 0 red
 # 1 blue
 var turn = -1
-
+var kolo: int = 1
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	get_tree().paused = true
