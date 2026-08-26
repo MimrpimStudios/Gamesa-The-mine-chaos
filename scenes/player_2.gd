@@ -59,13 +59,13 @@ func move(direction: int, preview: bool) -> void:
 	if preview:
 		match direction:
 			0:
-				set_cell(0, player_pos, 0, Vector2i(2, 0))
+				set_cell(0, player_pos, 0, Vector2i(8, 0))
 			1:
-				set_cell(0, player_pos, 0, Vector2i(4, 0))
+				set_cell(0, player_pos, 0, Vector2i(10, 0))
 			2:
-				set_cell(0, player_pos, 0, Vector2i(3, 0))
+				set_cell(0, player_pos, 0, Vector2i(9, 0))
 			3:
-				set_cell(0, player_pos, 0, Vector2i(5, 0))
+				set_cell(0, player_pos, 0, Vector2i(11, 0))
 	else:
 		match direction:
 			0: # DOWN (dolů)
@@ -123,40 +123,40 @@ func execute_move(direction: int) -> void:
 	game_manager.turn = -1
 	match direction:
 		0:
-			set_cell(0, player_pos, 0, Vector2i(2, 0))
+			set_cell(0, player_pos, 0, Vector2i(8, 0))
 			await get_tree().create_timer(0.5).timeout
 			set_cell(0, player_pos, -1)
-			set_cell(0, player_future_pos, 0, Vector2i(2, 0))
+			set_cell(0, player_future_pos, 0, Vector2i(8, 0))
 			player_pos = player_future_pos
 			await get_tree().create_timer(0.5).timeout
-			set_cell(0, player_pos, 0, Vector2i(0, 0))
+			set_cell(0, player_pos, 0, Vector2i(6, 0))
 			player_pos = player_future_pos
 		1:
-			set_cell(0, player_pos, 0, Vector2i(4, 0))
+			set_cell(0, player_pos, 0, Vector2i(10, 0))
 			await get_tree().create_timer(0.5).timeout
 			set_cell(0, player_pos, -1)
-			set_cell(0, player_future_pos, 0, Vector2i(4, 0))
+			set_cell(0, player_future_pos, 0, Vector2i(10, 0))
 			player_pos = player_future_pos
 			await get_tree().create_timer(0.5).timeout
-			set_cell(0, player_pos, 0, Vector2i(0, 0))
+			set_cell(0, player_pos, 0, Vector2i(6, 0))
 			player_pos = player_future_pos
 		2:
-			set_cell(0, player_pos, 0, Vector2i(3, 0))
+			set_cell(0, player_pos, 0, Vector2i(9, 0))
 			await get_tree().create_timer(0.5).timeout
 			set_cell(0, player_pos, -1)
-			set_cell(0, player_future_pos, 0, Vector2i(3, 0))
+			set_cell(0, player_future_pos, 0, Vector2i(9, 0))
 			player_pos = player_future_pos
 			await get_tree().create_timer(0.5).timeout
-			set_cell(0, player_pos, 0, Vector2i(0, 0))
+			set_cell(0, player_pos, 0, Vector2i(6, 0))
 			player_pos = player_future_pos
 		3:
-			set_cell(0, player_pos, 0, Vector2i(5, 0))
+			set_cell(0, player_pos, 0, Vector2i(11, 0))
 			await get_tree().create_timer(0.5).timeout
 			set_cell(0, player_pos, -1)
-			set_cell(0, player_future_pos, 0, Vector2i(5, 0))
+			set_cell(0, player_future_pos, 0, Vector2i(11, 0))
 			player_pos = player_future_pos
 			await get_tree().create_timer(0.5).timeout
-			set_cell(0, player_pos, 0, Vector2i(0, 0))
+			set_cell(0, player_pos, 0, Vector2i(6, 0))
 	game_manager.turn = 0
 
 	print("Pohyb úspěšný!")
@@ -183,7 +183,7 @@ func make_player():
 		if red_house_positions.size() > 0:
 			var red_house_pos: Vector2i = red_house_positions[0]
 			print("První HOME1BLUE je na mřížce: ", red_house_pos)
-			set_cell(0, red_house_pos, 0, Vector2i(0, 0) )
-			player_pos = get_unique_tile_position(Vector2i(0, 0))
+			set_cell(0, red_house_pos, 0, Vector2i(6, 0) )
+			player_pos = get_unique_tile_position(Vector2i(6, 0))
 	else:
 		print("HOME1BLUE nebyl v mapě nalezen.")
