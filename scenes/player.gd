@@ -3,7 +3,10 @@ extends TileMap
 @onready var object_manage: Node = $"../ObjectManage"
 @onready var game_manager: Node = $"../GameManager"
 
-var player_pos: Vector2i
+var player_pos: Vector2i:
+	set(value):
+			player_pos = value
+			arrow_future_pos = Vector2i(player_pos.x, player_pos.y - 1)
 var player_future_pos: Vector2i
 var color = 0
 var show_move: int = -1
@@ -18,7 +21,11 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	if game_manager.turn == color:
-		arrow_future_pos = Vector2i(player_pos.x, player_pos.y - 1)
+		set_cell(1, arrow_pos)
+		arrow_pos = arrow_future_pos
+		set_cell(1, arrow_pos, 1, Vector2i(0, 0))
+	else:
+		set_cell(1, arrow_pos)
 
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("ui_up") and game_manager.turn == color:

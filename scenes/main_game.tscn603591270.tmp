@@ -93,7 +93,6 @@ map_file = "res://levels/level2_grid.txt"
 [node name="Player1" type="TileMap" parent="."]
 tile_set = ExtResource("2_ipu61")
 format = 2
-layer_1/name = "Layer1"
 script = ExtResource("3_ygxny")
 
 [node name="Player2" type="TileMap" parent="."]
