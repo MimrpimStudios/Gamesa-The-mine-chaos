@@ -23,7 +23,7 @@ extends Node
 ]
 # 0 red
 # 1 blue
-var turn = 0
+var turn = -1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -48,4 +48,5 @@ func _on_file_dialog_file_selected(path: String) -> void:
 	print("loading player...")
 	await player_1.make_player()
 	await player_2.make_player()
+	turn = 0
 	loading_eye.hide()

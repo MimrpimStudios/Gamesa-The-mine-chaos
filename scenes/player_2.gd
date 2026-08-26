@@ -3,10 +3,16 @@ extends TileMap
 @onready var object_manage: Node = $"../ObjectManage"
 @onready var game_manager: Node = $"../GameManager"
 
-@onready var player_pos = get_unique_tile_position(Vector2i(0, 0))
+var player_pos: Vector2i:
+	set(value):
+			player_pos = value
+			arrow_future_pos = Vector2i(player_pos.x, player_pos.y - 1)
 var player_future_pos: Vector2i
 var color = 1
-var show_move = -1
+var show_move: int = -1
+var arrow_pos: Vector2i
+var arrow_future_pos: Vector2i
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
@@ -14,7 +20,12 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	pass
+	if game_manager.turn == color:
+		set_cell(1, arrow_pos)
+		arrow_pos = arrow_future_pos
+		set_cell(1, arrow_pos, 1, Vector2i(0, 0))
+	elif not arrow_pos == null:
+		set_cell(1, arrow_pos)
 
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("ui_up") and game_manager.turn == color:
@@ -146,10 +157,10 @@ func execute_move(direction: int) -> void:
 			player_pos = player_future_pos
 			await get_tree().create_timer(0.5).timeout
 			set_cell(0, player_pos, 0, Vector2i(0, 0))
-	game_manager.turn = 0
+	game_manager.turn = 1
 
 	print("Pohyb úspěšný!")
-
+	
 # Hledáme např. dlaždici se souřadnicemi Atlasu Vector2i(3, 1)
 func get_unique_tile_position(target_atlas_coords: Vector2i) -> Vector2i:
 	# Projít všechny položené tiles
@@ -162,12 +173,6 @@ func get_unique_tile_position(target_atlas_coords: Vector2i) -> Vector2i:
 	print("Dlaždice nebyla v mapě nalezena.")
 	return Vector2i(-1, -1) # Kód pro nenalezeno
 
-func is_position_wall(pos: Vector2i) -> bool:
-	for wall_type in object_manage.walls:
-		# Vyhledá, zda je pozice v poli pro daný typ zdi
-		if pos in object_manage.walls[wall_type]:
-			return true
-	return false
 
 func make_player():
 	if "HOME1BLUE" in object_manage.houses:

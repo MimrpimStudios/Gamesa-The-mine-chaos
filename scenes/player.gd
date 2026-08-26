@@ -24,7 +24,7 @@ func _process(_delta: float) -> void:
 		set_cell(1, arrow_pos)
 		arrow_pos = arrow_future_pos
 		set_cell(1, arrow_pos, 1, Vector2i(0, 0))
-	else:
+	elif not arrow_pos == null:
 		set_cell(1, arrow_pos)
 
 func _input(_event: InputEvent) -> void:
