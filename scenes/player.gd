@@ -122,7 +122,7 @@ func is_wall_at(wall_type: String, pos: Vector2i) -> bool:
 	return false
 
 func execute_move(direction: int) -> void:
-	trail.set_cell(3, player_pos, 2, Vector2i(0, 0))
+	trail.set_cell(0, player_pos, 2, Vector2i(0, 0))
 	show_move = -1
 	game_manager.turn = -1
 	match direction:
