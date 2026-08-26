@@ -157,7 +157,7 @@ func execute_move(direction: int) -> void:
 			player_pos = player_future_pos
 			await get_tree().create_timer(0.5).timeout
 			set_cell(0, player_pos, 0, Vector2i(0, 0))
-	game_manager.turn = 1
+	game_manager.turn = 0
 
 	print("Pohyb úspěšný!")
 	
