@@ -8,8 +8,8 @@ var spawn_kolo: int = -1
 var power_up_id = 0
 var power_up_layer_id = 1
 const powerups: Dictionary = {
-	"radar": Vector2i(8, 0),
-	"trail": Vector2i(9, 0),
+#	"radar": Vector2i(8, 0),
+#	"trail": Vector2i(9, 0),
 	"swap": Vector2i(10, 0),
 }
 func _process(_delta: float) -> void:
@@ -44,7 +44,8 @@ func _process(_delta: float) -> void:
 		# Pokud se našlo volné políčko, zapíše se. Pokud jsou obě obsazená, nestane se nic.
 		if final_coords != Vector2i(-1, -1):
 			tile_map_3.set_cell(power_up_layer_id, final_coords, power_up_id, rand_value)
-			object_manage.powerups[rand_key] = final_coords
+			# Klíč je pozice, hodnota je typ powerupu
+			object_manage.powerups[final_coords] = rand_key 
 			print("Powerups: ", object_manage.powerups)
 		else:
 			print("Obě políčka byla obsazená, powerup se neukládá.")

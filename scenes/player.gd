@@ -3,6 +3,8 @@ extends TileMap
 @onready var object_manage: Node = $"../ObjectManage"
 @onready var game_manager: Node = $"../GameManager"
 @onready var trail: TileMap = $"../Trail"
+@onready var tile_map_powerups: TileMap = $"../TileMap3"
+@onready var player_2: TileMap = $"../Player2"
 
 var player_pos: Vector2i:
 	set(value):
@@ -161,11 +163,45 @@ func execute_move(direction: int) -> void:
 			player_pos = player_future_pos
 			await get_tree().create_timer(0.5).timeout
 			set_cell(0, player_pos, 0, Vector2i(12, 0))
+	
+	print("checking for powerups")
+	powerup_check()
 	top_level = false
 	game_manager.turn = 1
 
 	print("Pohyb úspěšný!")
+
+func powerup_check():
+	var powerups: Dictionary = object_manage.powerups
 	
+	if player_pos in powerups:
+		var klic_powerupu = powerups[player_pos]
+		print("Hráč sebral powerup: ", klic_powerupu)
+		
+		# Smazání powerupu z mapy i ze slovníku
+		tile_map_powerups.set_cell(1, player_pos, -1)
+		powerups.erase(player_pos)
+		
+		powerup_use(klic_powerupu)
+	else:
+		print("Na této pozici žádný powerup není.")
+
+func powerup_use(klic: String):
+	match klic:
+		"swap":
+			player_future_pos = player_2.player_pos
+			player_2.player_future_pos = player_pos
+			
+			set_cell(0, player_pos, -1)
+			player_2.set_cell(0, player_2.player_pos, -1)
+			
+			set_cell(0, player_future_pos, 0, Vector2i(12, 0))
+			player_2.set_cell(0, player_2.player_future_pos, 0, Vector2i(6, 0))
+			
+			# Uložení nových pozic pro oba hráče
+			player_pos = player_future_pos
+			player_2.player_pos = player_2.player_future_pos
+
 # Hledáme např. dlaždici se souřadnicemi Atlasu Vector2i(3, 1)
 func get_unique_tile_position(target_atlas_coords: Vector2i) -> Vector2i:
 	# Projít všechny položené tiles
