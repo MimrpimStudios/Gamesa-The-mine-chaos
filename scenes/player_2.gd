@@ -124,7 +124,7 @@ func is_wall_at(wall_type: String, pos: Vector2i) -> bool:
 	return false
 
 func execute_move(direction: int) -> void:
-	trail.set_cell(0, player_pos, 2, Vector2i(0, 1))
+	trail.set_cell(1, player_pos, 2, Vector2i(0, 1))
 	show_move = -1
 	game_manager.turn = -1
 	match direction:
@@ -202,6 +202,8 @@ func powerup_use(klic: String):
 			# Uložení nových pozic pro oba hráče
 			player_pos = player_future_pos
 			player_2.player_pos = player_2.player_future_pos
+		"trail":
+			trail.clear_layer(1)
 
 # Hledáme např. dlaždici se souřadnicemi Atlasu Vector2i(3, 1)
 func get_unique_tile_position(target_atlas_coords: Vector2i) -> Vector2i:

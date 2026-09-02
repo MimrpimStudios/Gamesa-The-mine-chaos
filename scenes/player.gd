@@ -201,7 +201,8 @@ func powerup_use(klic: String):
 			# Uložení nových pozic pro oba hráče
 			player_pos = player_future_pos
 			player_2.player_pos = player_2.player_future_pos
-
+		"trail":
+			trail.clear_layer(1)
 # Hledáme např. dlaždici se souřadnicemi Atlasu Vector2i(3, 1)
 func get_unique_tile_position(target_atlas_coords: Vector2i) -> Vector2i:
 	# Projít všechny položené tiles
