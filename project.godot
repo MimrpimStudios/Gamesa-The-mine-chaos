@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Gamesa: The mine chaos"
 config/tags=PackedStringArray("gamesa")
-run/main_scene="uid://c7klc7stx1ram"
+run/main_scene="uid://cafi2y1etmtit"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="uid://brnqkd58gylsb"
 

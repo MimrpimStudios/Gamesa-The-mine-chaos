@@ -31,7 +31,7 @@ func _ready() -> void:
 func load_level_file(path: String):
 	var file = FileAccess.open(path, FileAccess.READ)
 	if not file:
-		OS.alert("The map file not found!", "Error!")
+		OS.alert("The ." + map_file.get_extension() + " file was not found in the same directory as the " + map_file.get_file().get_basename() + ".map file!", "Error!")
 		return
 	var contents = file.get_as_text().replace("\r\n", "\n")
 	var sections = contents.split("\n\n", false)
@@ -57,6 +57,8 @@ func place_tiles_based_on_string(level_contents: String):
 				set_cell(0, Vector2i(x, y), main_source_id, letter_to_atlas_coord[tile_key])
 
 func read_settings(settings: String):
+	if not map_file.get_extension() == "map":
+		pass
 	var target_width: int = -1
 	var target_height: int = -1
 

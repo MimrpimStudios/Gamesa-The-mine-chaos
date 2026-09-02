@@ -14,6 +14,8 @@ extends Node
 @onready var player_1: TileMap = $"../Player1"
 @onready var player_2: TileMap = $"../Player2"
 
+@onready var win_label: Label = $CenterContainer2/WinLabel
+
 @onready var tilemaps = [
 	tile_map,
 	tile_map_2,
@@ -27,6 +29,9 @@ var turn = -1
 var kolo: int = 1
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	# the label is placeholder
+	win_label.hide()
+	
 	get_tree().paused = true
 	file_dialog.show()
 	loading_eye.show()
@@ -50,3 +55,14 @@ func _on_file_dialog_file_selected(path: String) -> void:
 	await player_2.make_player()
 	turn = 0
 	loading_eye.hide()
+
+func victory(color: int) -> void:
+	turn = -1
+	match color:
+		0:
+			# the label is placeholder
+			win_label.text = "Player Red Wins!"
+		1:
+			# the label is placeholder
+			win_label.text = "Player Red Wins!"
+	win_label.show()

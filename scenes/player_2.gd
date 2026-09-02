@@ -4,7 +4,9 @@ extends TileMap
 @onready var game_manager: Node = $"../GameManager"
 @onready var trail: TileMap = $"../Trail"
 @onready var tile_map_powerups: TileMap = $"../TileMap3"
-@onready var player_2: TileMap = $"../Player2"
+@onready var player_2: TileMap = $"../Player1"
+
+var red_house_pos: Vector2i
 
 var player_pos: Vector2i:
 	set(value):
@@ -23,6 +25,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
+	death_check()
 	if game_manager.turn == color:
 		top_level = true
 		set_cell(1, arrow_pos)
@@ -124,7 +127,8 @@ func is_wall_at(wall_type: String, pos: Vector2i) -> bool:
 	return false
 
 func execute_move(direction: int) -> void:
-	trail.set_cell(1, player_pos, 2, Vector2i(0, 1))
+	if not player_pos == red_house_pos:
+		trail.set_cell(1, player_pos, 2, Vector2i(0, 1))
 	show_move = -1
 	game_manager.turn = -1
 	match direction:
@@ -164,6 +168,8 @@ func execute_move(direction: int) -> void:
 			await get_tree().create_timer(0.5).timeout
 			set_cell(0, player_pos, 0, Vector2i(6, 0))
 	
+	print("checking for death condisions...")
+	death_check()
 	print("checking for powerups")
 	powerup_check()
 	top_level = false
@@ -203,7 +209,24 @@ func powerup_use(klic: String):
 			player_pos = player_future_pos
 			player_2.player_pos = player_2.player_future_pos
 		"trail":
-			trail.clear_layer(1)
+			trail.clear_layer(0)
+
+func death_check():
+	# home check
+	var houses: Dictionary = object_manage.houses
+	for i in houses:
+		if player_pos in houses[i]:
+			var klic_house = i
+			print("Hráč nasel dum: ", klic_house)
+			if klic_house == "HOME1RED":
+				game_manager.victory(1)
+		
+	# trail check
+	if trail.get_cell_source_id(0, player_pos) != -1:
+		print("player died")
+		await get_tree().create_timer(1).timeout
+		set_cell(0, player_pos, -1)
+		game_manager.victory(0)
 
 # Hledáme např. dlaždici se souřadnicemi Atlasu Vector2i(3, 1)
 func get_unique_tile_position(target_atlas_coords: Vector2i) -> Vector2i:
@@ -225,7 +248,7 @@ func make_player():
 	
 		# Pokud víš, že je v mapě jen JEDEN dům tohoto typu (první v poli):
 		if red_house_positions.size() > 0:
-			var red_house_pos: Vector2i = red_house_positions[0]
+			red_house_pos = red_house_positions[0]
 			print("První HOME1BLUE je na mřížce: ", red_house_pos)
 			set_cell(0, red_house_pos, 0, Vector2i(6, 0) )
 			player_pos = get_unique_tile_position(Vector2i(6, 0))

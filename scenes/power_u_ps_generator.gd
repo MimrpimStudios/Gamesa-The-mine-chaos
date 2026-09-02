@@ -10,7 +10,7 @@ var power_up_layer_id = 1
 const powerups: Dictionary = {
 #	"radar": Vector2i(8, 0),
 	"trail": Vector2i(9, 0),
-#/	"swap": Vector2i(10, 0),
+	"swap": Vector2i(10, 0),
 }
 func _process(_delta: float) -> void:
 	if game_manager.kolo == 2 and spawn_kolo == -1:
