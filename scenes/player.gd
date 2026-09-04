@@ -183,7 +183,6 @@ func death_check():
 	
 	if player_pos in houses:
 		var klic_house = houses[player_pos]
-		print("Hráč sebral powerup: ", klic_house)
 		if klic_house == "HOME1BLUE":
 			game_manager.victory(0)
 	# trail check

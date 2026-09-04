@@ -66,3 +66,7 @@ func victory(color: int) -> void:
 			# the label is placeholder
 			win_label.text = "Player Red Wins!"
 	win_label.show()
+
+
+func _on_file_dialog_canceled() -> void:
+	get_tree().quit(0)

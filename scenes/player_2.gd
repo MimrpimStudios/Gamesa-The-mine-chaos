@@ -217,7 +217,6 @@ func death_check():
 	for i in houses:
 		if player_pos in houses[i]:
 			var klic_house = i
-			print("Hráč nasel dum: ", klic_house)
 			if klic_house == "HOME1RED":
 				game_manager.victory(1)
 		

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c7klc7stx1ram"]
+[gd_scene load_steps=13 format=3 uid="uid://c7klc7stx1ram"]
 
 [ext_resource type="PackedScene" uid="uid://bamx7epusptiu" path="res://scenes/tile_map.tscn" id="1_72e8q"]
 [ext_resource type="Script" uid="uid://cvlxbsx141c2d" path="res://scenes/main_game.gd" id="2_72e8q"]
@@ -6,8 +6,11 @@
 [ext_resource type="Script" uid="uid://0fxfs5j0vigp" path="res://scenes/object_manage.gd" id="3_d2op2"]
 [ext_resource type="Script" uid="uid://d2x000oyknbic" path="res://scenes/player.gd" id="3_ygxny"]
 [ext_resource type="Script" uid="uid://bu4tn41egvy7y" path="res://scenes/player_2.gd" id="4_ygxny"]
+[ext_resource type="TileSet" uid="uid://bie65dm0o5743" path="res://assets/resources/tileset_01.res" id="5_nqdth"]
+[ext_resource type="Script" uid="uid://cl17in14ywgol" path="res://scenes/mines.gd" id="6_5cypo"]
 [ext_resource type="PackedScene" uid="uid://dreftke3ea6po" path="res://scenes/loading_eye.tscn" id="6_wi4c7"]
 [ext_resource type="Script" uid="uid://bnav4ulbdeewt" path="res://scenes/power_u_ps_generator.gd" id="8_70vka"]
+[ext_resource type="Script" uid="uid://d0oh5v5hmds4p" path="res://scenes/bomb_placer.gd" id="10_5cypo"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_70vka"]
 font_size = 8
@@ -116,6 +119,13 @@ format = 2
 layer_0/name = "red"
 layer_1/name = "blue"
 
+[node name="Mines" type="TileMap" parent="."]
+tile_set = ExtResource("5_nqdth")
+format = 2
+layer_0/name = "Default"
+layer_1/name = "Last"
+script = ExtResource("6_5cypo")
+
 [node name="GameManager" type="Node" parent="."]
 process_mode = 3
 script = ExtResource("2_72e8q")
@@ -159,4 +169,8 @@ script = ExtResource("3_d2op2")
 [node name="PowerUPsGenerator" type="Node" parent="."]
 script = ExtResource("8_70vka")
 
+[node name="BombPlacer" type="Node" parent="."]
+script = ExtResource("10_5cypo")
+
+[connection signal="canceled" from="GameManager/FileDialog" to="GameManager" method="_on_file_dialog_canceled"]
 [connection signal="file_selected" from="GameManager/FileDialog" to="GameManager" method="_on_file_dialog_file_selected"]
