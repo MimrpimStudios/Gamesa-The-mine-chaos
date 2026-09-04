@@ -227,6 +227,14 @@ func death_check():
 		set_cell(0, player_pos, -1)
 		game_manager.victory(1)
 
+	var bombs: Array = object_manage.mines
+	# bomb check
+	for i in bombs:
+		if i == player_pos:
+			print("player died")
+			await get_tree().create_timer(1).timeout
+			set_cell(0, player_pos, -1)
+			game_manager.victory(1)
 
 
 # Hledáme např. dlaždici se souřadnicemi Atlasu Vector2i(3, 1)
