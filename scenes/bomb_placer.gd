@@ -32,6 +32,7 @@ func _process(_delta: float) -> void:
 			print("bomba zkousim na: ", mine_pos)
 			print("Stav: ", is_occupied(mine_pos))
 		mines.append(mine_pos)
+		mines_tilemap.set_cell(last_layer, mine_pos, source, mine)
 		last_kolo_place = game_manager.kolo + 1
 
 func is_occupied(coords: Vector2i) -> bool:
