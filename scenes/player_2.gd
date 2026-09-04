@@ -5,6 +5,7 @@ extends TileMap
 @onready var trail: TileMap = $"../Trail"
 @onready var tile_map_powerups: TileMap = $"../TileMap3"
 @onready var player_2: TileMap = $"../Player1"
+@onready var mines: TileMap = $"../Mines"
 
 var red_house_pos: Vector2i
 
@@ -31,7 +32,7 @@ func _process(_delta: float) -> void:
 		set_cell(1, arrow_pos)
 		arrow_pos = arrow_future_pos
 		set_cell(1, arrow_pos, 1, Vector2i(0, 0))
-	else:
+	elif not arrow_pos == null:
 		
 		set_cell(1, arrow_pos)
 
@@ -171,16 +172,11 @@ func execute_move(direction: int) -> void:
 	print("checking for death condisions...")
 	death_check()
 	print("checking for powerups")
-	powerup_check()
-	top_level = false
 	game_manager.turn = 0
 	game_manager.kolo += 1
-
-	print("Pohyb úspěšný!")
-
-func powerup_check():
-	var powerups: Dictionary = object_manage.powerups
 	
+	var powerups: Dictionary = object_manage.powerups
+
 	if player_pos in powerups:
 		var klic_powerupu = powerups[player_pos]
 		print("Hráč sebral powerup: ", klic_powerupu)
@@ -189,43 +185,51 @@ func powerup_check():
 		tile_map_powerups.set_cell(1, player_pos, -1)
 		powerups.erase(player_pos)
 		
-		powerup_use(klic_powerupu)
+		match klic_powerupu:
+			"swap":
+				player_future_pos = player_2.player_pos
+				player_2.player_future_pos = player_pos
+				
+				set_cell(0, player_pos, -1)
+				player_2.set_cell(0, player_2.player_pos, -1)
+				
+				set_cell(0, player_future_pos, 0, Vector2i(12, 0))
+				player_2.set_cell(0, player_2.player_future_pos, 0, Vector2i(6, 0))
+				
+				# Uložení nových pozic pro oba hráče
+				player_pos = player_future_pos
+				player_2.player_pos = player_2.player_future_pos
+			"trail":
+				trail.clear_layer(1)
+			
+			"radar":
+				mines.set_layer_modulate(0, Color(0.0, 1.0, 0.0, 1.0))
+				await get_tree().create_timer(10).timeout
+				mines.set_layer_modulate(0, Color(0.0, 0.0, 0.0, 0.0))
+
 	else:
 		print("Na této pozici žádný powerup není.")
 
-func powerup_use(klic: String):
-	match klic:
-		"swap":
-			player_future_pos = player_2.player_pos
-			player_2.player_future_pos = player_pos
-			
-			set_cell(0, player_pos, -1)
-			player_2.set_cell(0, player_2.player_pos, -1)
-			
-			set_cell(0, player_future_pos, 0, Vector2i(12, 0))
-			player_2.set_cell(0, player_2.player_future_pos, 0, Vector2i(6, 0))
-			
-			# Uložení nových pozic pro oba hráče
-			player_pos = player_future_pos
-			player_2.player_pos = player_2.player_future_pos
-		"trail":
-			trail.clear_layer(0)
+	
+
+	print("Pohyb úspěšný!")
 
 func death_check():
-	# home check
+	
 	var houses: Dictionary = object_manage.houses
-	for i in houses:
-		if player_pos in houses[i]:
-			var klic_house = i
-			if klic_house == "HOME1RED":
-				game_manager.victory(1)
-		
+	
+	if player_pos in houses:
+		var klic_house = houses[player_pos]
+		if klic_house == "HOME1BLUE":
+			game_manager.victory(0)
 	# trail check
 	if trail.get_cell_source_id(0, player_pos) != -1:
 		print("player died")
 		await get_tree().create_timer(1).timeout
 		set_cell(0, player_pos, -1)
 		game_manager.victory(0)
+
+
 
 # Hledáme např. dlaždici se souřadnicemi Atlasu Vector2i(3, 1)
 func get_unique_tile_position(target_atlas_coords: Vector2i) -> Vector2i:

@@ -14,46 +14,60 @@ const last_layer: int = 1
 var last_kolo: int = 3
 var last_kolo_place: int = 2
 var mine_pos: Vector2i = Vector2i(-1, -1)
-
+const max_trials = 100
+var trials = 5
 @onready var mines: Array = object_manage.mines
 
 func _process(_delta: float) -> void:
-	if last_kolo == game_manager.kolo:
+	if last_kolo <= game_manager.kolo:
 		mines_tilemap.set_cell(last_layer, mine_pos)
 		mines_tilemap.set_cell(default_layer, mine_pos, source, mine)
 		last_kolo = game_manager.kolo + 1
 
-	if last_kolo_place == game_manager.kolo:
+	if last_kolo_place <= game_manager.kolo:
 		print("umistuji bombu na default layer")
+		
+		trials = max_trials
 		
 		while is_occupied(mine_pos):
 			var rng_mine = get_random_map_position()
 			mine_pos = rng_mine
 			print("bomba zkousim na: ", mine_pos)
 			print("Stav: ", is_occupied(mine_pos))
-		mines.append(mine_pos)
-		mines_tilemap.set_cell(last_layer, mine_pos, source, mine)
+			trials = trials - 1
+			print("Zbyva pokusu: ", trials)
+			if trials == 0:
+				break
+			
+		if not trials == 0:
+			mines.append(mine_pos)
+			mines_tilemap.set_cell(last_layer, mine_pos, source, mine)
+		
 		last_kolo_place = game_manager.kolo + 1
 
 func is_occupied(coords: Vector2i) -> bool:
 	if coords == Vector2i(-1, -1):
-		return true # Neplatná pozice z find_powerup_loc
-	
-	# 1. Kontrola, zda už na TileMapě na této vrstvě něco je
-	if mines_tilemap.get_cell_source_id(default_layer, coords) != -1:
-		for i in object_manage.ddp:
-			var array_ddp = object_manage.ddp[i]
-			for j in array_ddp:
-				if j == coords:
-					return false
 		return true
-		
-	# 2. Kontrola, zda tam už není zapsaný jiný powerup v dictionary
+
+	# 1. Kontrola, zda tam už není zapsaná jiná bomba
 	if coords in mines:
 		return true
-		
-	return false
 
+	# 2. Kontrola, zda už na vrstvě min něco je
+	if mines_tilemap.get_cell_source_id(default_layer, coords) != -1:
+		return true
+
+	# 3. Samostatná kontrola pro DDP (zda pozice nepatří do ddp)
+	for key in object_manage.ddp:
+		if coords in object_manage.ddp[key]:
+			return true
+
+	# 4. Kontrola pro DAP (domy)
+	for key in object_manage.houses:
+		if coords in object_manage.houses[key]:
+			return true
+
+	return false
 func get_random_map_position() -> Vector2i:
 	# Získáme rozsah použitých buněk na TileMapě
 	var used_rect: Rect2i = grid_tilemap.get_used_rect()
