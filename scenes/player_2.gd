@@ -172,8 +172,6 @@ func execute_move(direction: int) -> void:
 	print("checking for death condisions...")
 	death_check()
 	print("checking for powerups")
-	game_manager.turn = 0
-	game_manager.kolo += 1
 	
 	var powerups: Dictionary = object_manage.powerups
 
@@ -211,6 +209,8 @@ func execute_move(direction: int) -> void:
 		print("Na této pozici žádný powerup není.")
 
 	
+	game_manager.turn = 0
+	game_manager.kolo += 1
 
 	print("Pohyb úspěšný!")
 
@@ -218,10 +218,8 @@ func death_check():
 	
 	var houses: Dictionary = object_manage.houses
 	
-	if player_pos in houses:
-		var klic_house = houses[player_pos]
-		if klic_house == "HOME1BLUE":
-			game_manager.victory(0)
+	if houses.has("HOME1RED") and player_pos in houses["HOME1RED"]:
+		game_manager.victory(1)
 	# trail check
 	if trail.get_cell_source_id(0, player_pos) != -1:
 		print("player died")

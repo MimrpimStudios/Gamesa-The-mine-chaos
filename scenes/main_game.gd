@@ -64,7 +64,7 @@ func victory(color: int) -> void:
 			win_label.text = "Player Red Wins!"
 		1:
 			# the label is placeholder
-			win_label.text = "Player Red Wins!"
+			win_label.text = "Player Blue Wins!"
 	win_label.show()
 
 

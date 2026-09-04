@@ -218,10 +218,8 @@ func death_check():
 	
 	var houses: Dictionary = object_manage.houses
 	
-	if player_pos in houses:
-		var klic_house = houses[player_pos]
-		if klic_house == "HOME1BLUE":
-			game_manager.victory(0)
+	if houses.has("HOME1BLUE") and player_pos in houses["HOME1BLUE"]:
+		game_manager.victory(0)
 	# trail check
 	if trail.get_cell_source_id(1, player_pos) != -1:
 		print("player died")
