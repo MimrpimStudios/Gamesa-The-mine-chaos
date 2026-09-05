@@ -43,7 +43,7 @@ func _process(_delta: float) -> void:
 			mines.append(mine_pos)
 			mines_tilemap.set_cell(last_layer, mine_pos, source, mine)
 		
-		last_kolo_place = game_manager.kolo + 1
+		last_kolo_place = game_manager.kolo + 3
 
 func is_occupied(coords: Vector2i) -> bool:
 	if coords == Vector2i(-1, -1):

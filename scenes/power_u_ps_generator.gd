@@ -9,8 +9,8 @@ var power_up_id = 0
 var power_up_layer_id = 1
 const powerups: Dictionary = {
 	"radar": Vector2i(8, 0),
-#	"trail": Vector2i(9, 0),
-#	"swap": Vector2i(10, 0),
+	"trail": Vector2i(9, 0),
+	"swap": Vector2i(10, 0),
 }
 func _process(_delta: float) -> void:
 	if game_manager.kolo == 2 and spawn_kolo == -1:
@@ -24,10 +24,10 @@ func _process(_delta: float) -> void:
 		print("Klíč: ", rand_key, " | Hodnota: ", rand_value)
 		
 		var loc1 = find_powerup_loc()
-		var pos1 = Vector2i(loc1.x, loc1.y - 1) if loc1 != Vector2i(-1, -1) else Vector2i(-1, -1)
+		var pos1 = Vector2i(loc1.x, loc1.y ) if loc1 != Vector2i(-1, -1) else Vector2i(-1, -1)
 
 		var loc2 = find_powerup_loc2()
-		var pos2 = Vector2i(loc2.x, loc2.y + 1) if loc2 != Vector2i(-1, -1) else Vector2i(-1, -1)
+		var pos2 = Vector2i(loc2.x, loc2.y) if loc2 != Vector2i(-1, -1) else Vector2i(-1, -1)
 
 		# Náhodné určení, která možnost se zkusí jako první
 		var first_choice = pos1 if rng.randi_range(0, 1) == 0 else pos2
